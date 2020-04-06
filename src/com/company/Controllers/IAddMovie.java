@@ -16,9 +16,7 @@ public interface IAddMovie {
             }
 
             @Override
-            public void removeUpdate(DocumentEvent documentEvent) {
-                changedUpdate(documentEvent);
-            }
+            public void removeUpdate(DocumentEvent documentEvent) { changedUpdate(documentEvent); }
 
             @Override
             public void changedUpdate(DocumentEvent documentEvent) {
