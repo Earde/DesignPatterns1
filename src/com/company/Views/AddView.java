@@ -3,62 +3,12 @@ package com.company.Views;
 import java.awt.BorderLayout;
 import javax.swing.*;
 
-public class View {
-    private JFrame frame;
+public class AddView extends AbstractView {
     private JLabel nameLabel, originLabel, yearLabel, budgetLabel;
     private JTextField nameTextField, originTextField, yearTextField, budgetTextField;
     private JButton saveButton;
 
-    public View(String title) {
-        frame = new JFrame(title);
-        frame.getContentPane().setLayout(new BorderLayout());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 120);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        // Create UI elements
-        nameLabel = new JLabel("Name :");
-        originLabel = new JLabel("Origin :");
-        yearLabel = new JLabel("Year :");
-        budgetLabel = new JLabel("Budget :");
-        nameTextField = new JTextField();
-        originTextField = new JTextField();
-        yearTextField = new JTextField();
-        budgetTextField = new JTextField();
-        saveButton = new JButton("Save");
-        // Add UI elements to frame
-        GroupLayout layout = new GroupLayout(frame.getContentPane());
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-        //horizontal layout
-        layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(nameLabel)
-                        .addComponent(nameTextField))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(originLabel)
-                        .addComponent(originTextField))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(yearLabel)
-                        .addComponent(yearTextField))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(budgetLabel)
-                        .addComponent(budgetTextField))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(saveButton)));
-        //vertical layout
-        layout.setVerticalGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(nameLabel)
-                    .addComponent(originLabel)
-                    .addComponent(yearLabel)
-                    .addComponent(budgetLabel))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(nameTextField)
-                        .addComponent(originTextField)
-                        .addComponent(yearTextField)
-                        .addComponent(budgetTextField)
-                        .addComponent(saveButton)));
-        frame.getContentPane().setLayout(layout);
-    }
-    //Frame
-    public JFrame getFrame() {
-        return frame;
-    }
-    //Labels
+    // Labels
     public JLabel getNameLabel() {
         return nameLabel;
     }
@@ -71,7 +21,7 @@ public class View {
     public JLabel getBudgetLabel() {
         return budgetLabel;
     }
-    //TextFields
+    // TextFields
     public JTextField getNameTextField() {
         return nameTextField;
     }
@@ -84,8 +34,56 @@ public class View {
     public JTextField getBudgetTextField() {
         return budgetTextField;
     }
-    //Buttons
+    // Buttons
     public JButton getSaveButton() {
         return saveButton;
+    }
+
+    public AddView(String title) { super(title); }
+
+    @Override
+    public void init() {
+        getFrame().getContentPane().setLayout(new BorderLayout());
+        getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getFrame().setSize(600, 105);
+        getFrame().setLocationRelativeTo(null);
+        getFrame().setVisible(true);
+        // Create UI elements
+        nameLabel = new JLabel("Name :");
+        originLabel = new JLabel("Origin :");
+        yearLabel = new JLabel("Year :");
+        budgetLabel = new JLabel("Budget :");
+        nameTextField = new JTextField();
+        originTextField = new JTextField();
+        yearTextField = new JTextField();
+        budgetTextField = new JTextField();
+        saveButton = new JButton("Save");
+        // Add UI elements to frame
+        GroupLayout layout = new GroupLayout(getFrame().getContentPane());
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        // Horizontal layout
+        layout.setHorizontalGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(nameLabel)
+                        .addComponent(nameTextField))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(originLabel)
+                        .addComponent(originTextField))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(yearLabel)
+                        .addComponent(yearTextField))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(budgetLabel)
+                        .addComponent(budgetTextField))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(saveButton)));
+        // Vertical layout
+        layout.setVerticalGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(nameLabel)
+                        .addComponent(originLabel)
+                        .addComponent(yearLabel)
+                        .addComponent(budgetLabel))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(nameTextField)
+                        .addComponent(originTextField)
+                        .addComponent(yearTextField)
+                        .addComponent(budgetTextField)
+                        .addComponent(saveButton)));
+        getFrame().getContentPane().setLayout(layout);
     }
 }

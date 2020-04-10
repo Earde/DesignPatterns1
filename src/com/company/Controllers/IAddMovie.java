@@ -1,12 +1,25 @@
 package com.company.Controllers;
 
+import com.company.Models.Movie;
+import com.company.Views.AddView;
+import javafx.collections.ObservableList;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public interface IAddMovie {
-    void initAddMovie();
+    default void init(AddView view, ObservableList<Movie> movies) {
+        // Bind CustomFunction (lambda) to onTextChanged callback of TextFields
+        setIsValidInputListener((tf) -> handleTextField(tf, view, isTextValid(tf)), view.getOriginTextField());
+        setIsValidInputListener((tf) -> handleTextField(tf, view, isYearValid(tf)), view.getYearTextField());
+        setIsValidInputListener((tf) -> handleTextField(tf, view, isBudgetValid(tf)), view.getBudgetTextField());
+        setIsValidInputListener((tf) -> handleTextField(tf, view, isTextValid(tf)), view.getNameTextField());
+        // Bind saveMovie function to saveButton onClick callback
+        view.getSaveButton().addActionListener(e -> saveMovie(view, movies));
+        view.getSaveButton().setEnabled(isSavable(view));
+    }
 
     default void setIsValidInputListener(ICustomFunction function, JTextField textField) {
         DocumentListener documentListener = new DocumentListener() {
@@ -26,21 +39,21 @@ public interface IAddMovie {
         textField.getDocument().addDocumentListener(documentListener);
     }
 
-    //changes background color of textfield and disables/enables savebutton
-    default void handleTextField(JTextField textField, JButton saveButton, boolean isValid) {
+    // Changes background color of textfield and disables/enables savebutton
+    default void handleTextField(JTextField textField, AddView view, boolean isValid) {
         if (isValid) {
             textField.setBackground(Color.WHITE);
         } else {
             textField.setBackground(Color.RED);
         }
-        saveButton.setEnabled(isSavable());
+        view.getSaveButton().setEnabled(isSavable(view));
     }
 
+    // TextField valid input functions
     default boolean isTextValid(JTextField textField) {
         String text = textField.getText();
         return !text.isEmpty();
     }
-
     default boolean isYearValid(JTextField textField) {
         try {
             Integer.parseInt(textField.getText());
@@ -49,7 +62,6 @@ public interface IAddMovie {
             return false;
         }
     }
-
     default boolean isBudgetValid(JTextField textField) {
         try {
             Double.parseDouble(textField.getText());
@@ -59,9 +71,30 @@ public interface IAddMovie {
         }
     }
 
-    //check if all mandatory fields are filled in to add a new movie
-    boolean isSavable();
+    // Check if all mandatory TextFields are valid to add a new movie
+    default boolean isSavable(AddView view) {
+        return  isBudgetValid(view.getBudgetTextField()) &&
+                isTextValid(view.getNameTextField()) &&
+                isTextValid(view.getOriginTextField()) &&
+                isYearValid(view.getYearTextField());
+    }
 
-    //save movie
-    void saveMovie();
+    // Save movie and reset TextFields layout
+    default void saveMovie(AddView view, ObservableList<Movie> movies) {
+        if (isSavable(view)) {
+            String name = view.getNameTextField().getText();
+            String origin = view.getOriginTextField().getText();
+            double budget = Double.parseDouble(view.getBudgetTextField().getText());
+            int year = Integer.parseInt(view.getYearTextField().getText());
+            movies.add(new Movie(name, year, origin, budget));
+            view.getNameTextField().setText("");
+            view.getOriginTextField().setText("");
+            view.getYearTextField().setText("");
+            view.getBudgetTextField().setText("");
+            view.getNameTextField().setBackground(Color.WHITE);
+            view.getOriginTextField().setBackground(Color.WHITE);
+            view.getYearTextField().setBackground(Color.WHITE);
+            view.getBudgetTextField().setBackground(Color.WHITE);
+        }
+    }
 }
