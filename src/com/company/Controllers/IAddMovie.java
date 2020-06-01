@@ -10,7 +10,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public interface IAddMovie {
-    default void init(AddView view, ObservableList<Movie> movies) {
+    default void initAddMovie(AddView view, ObservableList<Movie> movies) {
         // Bind CustomFunction (lambda) to onTextChanged callback of TextFields
         setIsValidInputListener((tf) -> handleTextField(tf, view, isTextValid(tf)), view.getOriginTextField());
         setIsValidInputListener((tf) -> handleTextField(tf, view, isYearValid(tf)), view.getYearTextField());
@@ -31,6 +31,7 @@ public interface IAddMovie {
             @Override
             public void removeUpdate(DocumentEvent documentEvent) { changedUpdate(documentEvent); }
 
+            // Execute custom function on textField change
             @Override
             public void changedUpdate(DocumentEvent documentEvent) {
                 function.execute(textField);
@@ -71,7 +72,7 @@ public interface IAddMovie {
         }
     }
 
-    // Check if all mandatory TextFields are valid to add a new movie
+    // Check if all mandatory TextFields are valid
     default boolean isSavable(AddView view) {
         return  isBudgetValid(view.getBudgetTextField()) &&
                 isTextValid(view.getNameTextField()) &&

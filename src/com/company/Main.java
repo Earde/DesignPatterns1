@@ -1,9 +1,10 @@
 package com.company;
 
-import com.company.Controllers.Controller;
+import com.company.Controllers.MovieController;
 import com.company.Models.Movie;
 import com.company.Views.AbstractView;
 import com.company.Views.ViewFactory;
+import com.company.Views.ViewTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +14,11 @@ public class Main {
         List<Movie> movies = new ArrayList<>();
         List<AbstractView> views = new ArrayList<>();
         // Create Views
-        views.add(ViewFactory.getView("ADD"));
-        views.add(ViewFactory.getView("LIST"));
-        views.add(ViewFactory.getView("CHART"));
+        views.add(ViewFactory.createView(ViewTypes.ADD));
+        views.add(ViewFactory.createView(ViewTypes.CHART));
+        views.add(ViewFactory.createView(ViewTypes.LIST));
         // Create Controller
-        Controller c = Controller.getInstance();
+        MovieController c = MovieController.getInstance();
         c.initController(views, movies);
     }
 }

@@ -10,30 +10,30 @@ import javax.swing.*;
 import static javax.swing.JOptionPane.*;
 
 public interface IListMovies {
-    default void init(ListView view, ObservableList<Movie> movies) {
+    default void initListMovie(ListView view, ObservableList<Movie> movies) {
         setModelChangedListener(view, movies);
-        view.getDeleteButton().addActionListener(e -> deleteLine(view, movies));
-        view.getInfoButton().addActionListener(e -> infoAboutLine(view, movies));
+        view.getDeleteButton().addActionListener(e -> deleteItem(view, movies));
+        view.getInfoButton().addActionListener(e -> infoAboutItem(view, movies));
     }
 
     default void setModelChangedListener(ListView view, ObservableList<Movie> movies) {
         movies.addListener((ListChangeListener<Movie>) change -> {
             DefaultListModel<String> listModel = new DefaultListModel<>();
-            movies.forEach(m -> listModel.addElement(m.getName())); // Convert to stream and use lambda for fast adding movies to model that JList uses.
+            movies.stream().forEach(m -> listModel.addElement(m.getName())); // Stream & lambda
             view.getList().setModel(listModel);
             view.getListPanel().revalidate();
             view.getListPanel().repaint();
         });
     }
 
-    default void deleteLine(ListView view, ObservableList<Movie> movies) {
+    default void deleteItem(ListView view, ObservableList<Movie> movies) {
         int selectedItem = view.getList().getSelectedIndex();
         if (selectedItem >= 0) {
             movies.remove(selectedItem);
         }
     }
 
-    default void infoAboutLine(ListView view, ObservableList<Movie> movies) {
+    default void infoAboutItem(ListView view, ObservableList<Movie> movies) {
         int selectedItem = view.getList().getSelectedIndex();
         if (selectedItem >= 0) {
             Movie movie = movies.get(selectedItem);

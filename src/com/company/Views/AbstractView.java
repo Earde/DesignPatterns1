@@ -1,7 +1,5 @@
 package com.company.Views;
 
-import com.company.Controllers.Controller;
-
 import javax.swing.*;
 
 public abstract class AbstractView {

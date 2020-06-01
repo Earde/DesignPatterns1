@@ -7,13 +7,11 @@ import javafx.collections.ObservableList;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public interface IChartMovie {
-    default void init(ChartView view, ObservableList<Movie> movies) {
+    default void initChartMovie(ChartView view, ObservableList<Movie> movies) {
         setModelChangedListener(view, movies);
     }
 
@@ -29,8 +27,8 @@ public interface IChartMovie {
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
 
         List<String> origins = new ArrayList<>();
-        movies.forEach(m -> origins.add(m.getOrigin()));
-        origins.forEach(o -> dataSet.setValue(Collections.frequency(origins, o), o, o));
+        movies.stream().forEach(m -> origins.add(m.getOrigin())); // Stream & lambda
+        origins.stream().forEach(o -> dataSet.setValue(Collections.frequency(origins, o), o, o)); // Stream & lambda
         return dataSet;
     }
 }
