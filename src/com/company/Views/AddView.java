@@ -55,18 +55,12 @@ public class AddView extends AbstractView {
         return budgetTextField;
     }
 
-    public void setNameTextFieldAction(AbstractAction action) { nameTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null));
-    }
-    public void setOriginTextFieldAction(AbstractAction action) { originTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null));
-    }
-    public void setYearTextFieldAction(AbstractAction action) { yearTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null));
-    }
-    public void setBudgetTextFieldAction(AbstractAction action) { budgetTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null));
-    }
+    public void setNameTextFieldAction(AbstractAction action) { nameTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null)); }
+    public void setOriginTextFieldAction(AbstractAction action) { originTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null)); }
+    public void setYearTextFieldAction(AbstractAction action) { yearTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null)); }
+    public void setBudgetTextFieldAction(AbstractAction action) { budgetTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null)); }
     // Buttons
-    public JButton getSaveButton() {
-        return saveButton;
-    }
+    public JButton getSaveButton() { return saveButton; }
     public void setSaveButtonAction(AbstractAction action) {
         String text = saveButton.getText();
         saveButton.setAction(action);
