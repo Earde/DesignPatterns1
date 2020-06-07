@@ -2,6 +2,26 @@ package com.company.Views;
 
 import java.awt.BorderLayout;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+@FunctionalInterface
+interface SimpleDocumentListener extends DocumentListener {
+    void update(DocumentEvent e);
+
+    @Override
+    default void insertUpdate(DocumentEvent e) {
+        update(e);
+    }
+    @Override
+    default void removeUpdate(DocumentEvent e) {
+        update(e);
+    }
+    @Override
+    default void changedUpdate(DocumentEvent e) {
+        update(e);
+    }
+}
 
 public class AddView extends AbstractView {
     private JLabel nameLabel, originLabel, yearLabel, budgetLabel;
@@ -34,15 +54,27 @@ public class AddView extends AbstractView {
     public JTextField getBudgetTextField() {
         return budgetTextField;
     }
+
+    public void setNameTextFieldAction(AbstractAction action) { nameTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null));
+    }
+    public void setOriginTextFieldAction(AbstractAction action) { originTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null));
+    }
+    public void setYearTextFieldAction(AbstractAction action) { yearTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null));
+    }
+    public void setBudgetTextFieldAction(AbstractAction action) { budgetTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null));
+    }
     // Buttons
     public JButton getSaveButton() {
         return saveButton;
     }
+    public void setSaveButtonAction(AbstractAction action) {
+        String text = saveButton.getText();
+        saveButton.setAction(action);
+        saveButton.setText(text);
+    }
 
-    public AddView(String title) { super(title); }
-
-    @Override
-    public void init() {
+    public AddView(String title) {
+        super(title);
         getFrame().getContentPane().setLayout(new BorderLayout());
         getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getFrame().setSize(600, 105);

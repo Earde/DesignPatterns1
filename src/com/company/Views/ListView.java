@@ -12,21 +12,6 @@ public class ListView extends AbstractView {
 
     public ListView(String title) {
         super(title);
-    }
-
-    public JList<String> getList() {
-        return list;
-    }
-    public JButton getDeleteButton() {
-        return deleteButton;
-    }
-    public JButton getInfoButton() {
-        return infoButton;
-    }
-    public JPanel getListPanel() { return listPanel; }
-
-    @Override
-    public void init() {
         getFrame().getContentPane().setLayout(new BorderLayout());
         getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getFrame().setSize(600, 200);
@@ -53,4 +38,26 @@ public class ListView extends AbstractView {
         getFrame().revalidate();
         getFrame().repaint();
     }
+
+    public JList<String> getList() {
+        return list;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+    public JButton getInfoButton() {
+        return infoButton;
+    }
+    public void setDeleteButtonAction(AbstractAction action) {
+        String text = deleteButton.getText();
+        deleteButton.setAction(action);
+        deleteButton.setText(text);
+    }
+    public void setInfoButtonAction(AbstractAction action) {
+        String text = infoButton.getText();
+        infoButton.setAction(action);
+        infoButton.setText(text);
+    }
+    public JPanel getListPanel() { return listPanel; }
 }

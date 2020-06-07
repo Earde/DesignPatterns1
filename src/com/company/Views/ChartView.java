@@ -28,10 +28,6 @@ public class ChartView extends AbstractView {
 
     public ChartView(String title) {
         super(title);
-    }
-
-    @Override
-    public void init() {
         getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getFrame().setSize(600, 400);
         getFrame().setLocation(50, 400);

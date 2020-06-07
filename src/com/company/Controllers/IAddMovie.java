@@ -1,45 +1,13 @@
 package com.company.Controllers;
 
 import com.company.Models.Movie;
+import com.company.Models.ObservableList;
 import com.company.Views.AddView;
-import javafx.collections.ObservableList;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public interface IAddMovie {
-    default void initAddMovie(AddView view, ObservableList<Movie> movies) {
-        // Bind CustomFunction (lambda) to onTextChanged callback of TextFields
-        setIsValidInputListener((tf) -> handleTextField(tf, view, isTextValid(tf)), view.getOriginTextField());
-        setIsValidInputListener((tf) -> handleTextField(tf, view, isYearValid(tf)), view.getYearTextField());
-        setIsValidInputListener((tf) -> handleTextField(tf, view, isBudgetValid(tf)), view.getBudgetTextField());
-        setIsValidInputListener((tf) -> handleTextField(tf, view, isTextValid(tf)), view.getNameTextField());
-        // Bind saveMovie function to saveButton onClick callback
-        view.getSaveButton().addActionListener(e -> saveMovie(view, movies));
-        view.getSaveButton().setEnabled(isSavable(view));
-    }
-
-    default void setIsValidInputListener(ICustomFunction function, JTextField textField) {
-        DocumentListener documentListener = new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent documentEvent) {
-                changedUpdate(documentEvent);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent documentEvent) { changedUpdate(documentEvent); }
-
-            // Execute custom function on textField change
-            @Override
-            public void changedUpdate(DocumentEvent documentEvent) {
-                function.execute(textField);
-            }
-        };
-        textField.getDocument().addDocumentListener(documentListener);
-    }
-
     // Changes background color of textfield and disables/enables savebutton
     default void handleTextField(JTextField textField, AddView view, boolean isValid) {
         if (isValid) {

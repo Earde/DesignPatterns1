@@ -1,47 +1,84 @@
 package com.company.Controllers;
 import com.company.Models.Movie;
-import com.company.Views.AbstractView;
+import com.company.Models.ObservableList;
 import com.company.Views.AddView;
 import com.company.Views.ChartView;
 import com.company.Views.ListView;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-import java.util.List;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.util.Observable;
+import java.util.Observer;
 
-public class MovieController implements IAddMovie, IListMovies, IChartMovie {
+public class MovieController implements Observer, IAddMovie, IListMovies, IChartMovie {
     private ObservableList<Movie> movies;
+    private AddView addView;
+    private ChartView chartView;
+    private ListView listView;
 
-    // Singleton pattern
-    private static final MovieController instance = new MovieController();
-    private MovieController() { }
-    public static MovieController getInstance() { return instance; }
+    public MovieController(AddView addView, ChartView chartView, ListView listView, ObservableList<Movie> movies) {
+        // Dependency injections
+        this.movies = movies;
+        this.addView = addView;
+        this.chartView = chartView;
+        this.listView = listView;
+        // Add observer
+        this.movies.addObserver(this);
+        // Textfields validation
+        this.addView.setNameTextFieldAction(new ValidateAction(this.addView.getNameTextField(), (tf) -> handleTextField(tf, this.addView, isTextValid(tf))));
+        this.addView.setOriginTextFieldAction(new ValidateAction(this.addView.getOriginTextField(), (tf) -> handleTextField(tf, this.addView, isTextValid(tf))));
+        this.addView.setYearTextFieldAction(new ValidateAction(this.addView.getYearTextField(), (tf) -> handleTextField(tf, this.addView, isYearValid(tf))));
+        this.addView.setBudgetTextFieldAction(new ValidateAction(this.addView.getBudgetTextField(), (tf) -> handleTextField(tf, this.addView, isBudgetValid(tf))));
+        // Save movie
+        this.addView.setSaveButtonAction(new AddAction());
+        // Disable save button because they are empty at start
+        this.addView.getSaveButton().setEnabled(isSavable(addView));
+        // Delete item action
+        this.listView.setDeleteButtonAction(new DeleteAction());
+        // Info about item action
+        this.listView.setInfoButtonAction(new InfoAction());
+    }
 
-    // Initialize controller
-    public void initController(List<AbstractView> views, List<Movie> movies) {
-        this.movies =  FXCollections.observableArrayList(movies); // Dependency injection
-        for (AbstractView view : views) {
-            if (view != null) {
-                view.init(); // Initialize view
-                init(view); // Set listeners on UI elements
-            }
+    // On model changed
+    @Override
+    public void update(Observable observable, Object o) {
+        updateList(this.listView, this.movies);
+        updateChart(this.chartView, this.movies);
+    }
+
+    // COMMAND PATTERNS
+    class ValidateAction extends AbstractAction {
+        JTextField textField;
+        ICustomFunction function;
+        public ValidateAction(JTextField tf, ICustomFunction func) {
+            function = func;
+            textField = tf;
+        }
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            function.execute(textField);
         }
     }
 
-    // Set action listeners for each view
-    private void init(AbstractView view) {
-        // Ik wou eigenlijk geen if else lijst, maar het was dit, of meerdere controller instanties (een voor list, een voor chart etc.) met polymorphism.
-        // Volgens mij is het niet de bedoeling om meerdere controller instanties te maken voor een mvc component.
-        // Daarom toch hier voor gekozen.
-        // Als u nog een tip heeft hoe dit generieker kan i.c.m. een enkele controller instantie, dan hoor ik het graag.
-        if (view instanceof AddView) {
-            initAddMovie((AddView)view, movies);
-        } else if (view instanceof ListView) {
-            initListMovie((ListView)view, movies);
-        } else if (view instanceof ChartView) {
-            initChartMovie((ChartView)view, movies);
-        } else {
-            throw new Error("Please create an init(" + view.getClass().getSimpleName() + " view, movies) function");
+    class AddAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            saveMovie(addView, movies);
+            addView.getSaveButton().setEnabled(isSavable(addView));
+        }
+    }
+
+    class DeleteAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            deleteItem(listView, movies);
+        }
+    }
+
+    class InfoAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            infoAboutItem(listView, movies);
         }
     }
 }
