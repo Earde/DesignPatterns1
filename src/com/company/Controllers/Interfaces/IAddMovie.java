@@ -1,7 +1,8 @@
-package com.company.Controllers;
+package com.company.Controllers.Interfaces;
 
+import com.company.Controllers.MovieController;
 import com.company.Models.Movie;
-import com.company.Models.ObservableList;
+import com.company.Models.ObservableListModel;
 import com.company.Views.AddView;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ public interface IAddMovie {
         view.getSaveButton().setEnabled(isSavable(view));
     }
 
-    // TextField valid input functions
+    // TextField input validation functions
     default boolean isTextValid(JTextField textField) {
         String text = textField.getText();
         return !text.isEmpty();
@@ -48,14 +49,16 @@ public interface IAddMovie {
                 isYearValid(view.getYearTextField());
     }
 
-    // Save movie and reset TextFields layout
-    default void saveMovie(AddView view, ObservableList<Movie> movies) {
+    // Save movie and reset TextFields layout/input
+    default void saveMovie(AddView view, ObservableListModel<Movie> movies) {
         if (isSavable(view)) {
             String name = view.getNameTextField().getText();
             String origin = view.getOriginTextField().getText();
             double budget = Double.parseDouble(view.getBudgetTextField().getText());
             int year = Integer.parseInt(view.getYearTextField().getText());
+
             movies.add(new Movie(name, year, origin, budget));
+
             view.getNameTextField().setText("");
             view.getOriginTextField().setText("");
             view.getYearTextField().setText("");

@@ -1,16 +1,10 @@
 package com.company.Views;
 
-import javafx.scene.chart.NumberAxis;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.TickUnit;
-import org.jfree.chart.axis.TickUnitSource;
-import org.jfree.chart.axis.TickUnits;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.Dataset;
 
 import javax.swing.*;
 
@@ -28,10 +22,15 @@ public class ChartView extends AbstractView {
 
     public ChartView(String title) {
         super(title);
-        getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getFrame().setSize(600, 400);
-        getFrame().setLocation(50, 400);
-        getFrame().setVisible(true);
+    }
+
+    @Override
+    public void CreateLayout() {
+        // Set frame properties
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 400);
+        setLocation(50, 400);
+        setVisible(true);
 
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
         dataSet.setValue(1, " ", " ");
@@ -46,7 +45,7 @@ public class ChartView extends AbstractView {
                 true,
                 false);
         panel = new ChartPanel(chart);
-        getFrame().setContentPane(panel);
+        setContentPane(panel);
         panel.revalidate();
         panel.repaint();
     }

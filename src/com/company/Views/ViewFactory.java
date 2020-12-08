@@ -1,8 +1,8 @@
 package com.company.Views;
 
 // Abstract factory pattern
-// Create AbstractViews
 public class ViewFactory {
+    // Creates an AbstractView
     public static AbstractView createView(ViewTypes viewType) {
         switch (viewType) {
             case ADD:

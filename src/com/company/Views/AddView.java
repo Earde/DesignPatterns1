@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+// TextField trigger events (onDataChanged)
 @FunctionalInterface
 interface SimpleDocumentListener extends DocumentListener {
     void update(DocumentEvent e);
@@ -28,7 +29,11 @@ public class AddView extends AbstractView {
     private JTextField nameTextField, originTextField, yearTextField, budgetTextField;
     private JButton saveButton;
 
-    // Labels
+    public AddView(String title) {
+        super(title);
+    }
+
+    // Label Getters
     public JLabel getNameLabel() {
         return nameLabel;
     }
@@ -41,7 +46,8 @@ public class AddView extends AbstractView {
     public JLabel getBudgetLabel() {
         return budgetLabel;
     }
-    // TextFields
+
+    // TextFields Getters
     public JTextField getNameTextField() {
         return nameTextField;
     }
@@ -55,25 +61,31 @@ public class AddView extends AbstractView {
         return budgetTextField;
     }
 
+    // Textfield AbstractAction Setters
     public void setNameTextFieldAction(AbstractAction action) { nameTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null)); }
     public void setOriginTextFieldAction(AbstractAction action) { originTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null)); }
     public void setYearTextFieldAction(AbstractAction action) { yearTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null)); }
     public void setBudgetTextFieldAction(AbstractAction action) { budgetTextField.getDocument().addDocumentListener((SimpleDocumentListener) e -> action.actionPerformed(null)); }
-    // Buttons
+
+    // Button Getter
     public JButton getSaveButton() { return saveButton; }
+
+    // Button AbstractAction Setter
     public void setSaveButtonAction(AbstractAction action) {
         String text = saveButton.getText();
         saveButton.setAction(action);
         saveButton.setText(text);
     }
 
-    public AddView(String title) {
-        super(title);
-        getFrame().getContentPane().setLayout(new BorderLayout());
-        getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getFrame().setSize(600, 105);
-        getFrame().setLocationRelativeTo(null);
-        getFrame().setVisible(true);
+    @Override
+    public void CreateLayout() {
+        // Set frame properties
+        getContentPane().setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 105);
+        setLocationRelativeTo(null);
+        setVisible(true);
+
         // Create UI elements
         nameLabel = new JLabel("Name :");
         originLabel = new JLabel("Origin :");
@@ -85,7 +97,7 @@ public class AddView extends AbstractView {
         budgetTextField = new JTextField();
         saveButton = new JButton("Save");
         // Add UI elements to frame
-        GroupLayout layout = new GroupLayout(getFrame().getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
         // Horizontal layout
@@ -110,6 +122,7 @@ public class AddView extends AbstractView {
                         .addComponent(yearTextField)
                         .addComponent(budgetTextField)
                         .addComponent(saveButton)));
-        getFrame().getContentPane().setLayout(layout);
+        // Add layout to Frame
+        getContentPane().setLayout(layout);
     }
 }

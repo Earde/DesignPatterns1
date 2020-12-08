@@ -1,7 +1,7 @@
-package com.company.Controllers;
+package com.company.Controllers.Interfaces;
 
 import com.company.Models.Movie;
-import com.company.Models.ObservableList;
+import com.company.Models.ObservableListModel;
 import com.company.Views.ChartView;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -10,13 +10,17 @@ import java.util.Collections;
 import java.util.List;
 
 public interface IChartMovie {
-    default void updateChart(ChartView view, ObservableList<Movie> movies) {
+    // Repaint Chart
+    default void updateChart(ChartView view, ObservableListModel<Movie> movies) {
         view.getChart().getCategoryPlot().setDataset(createDataset(movies));
         view.getPanel().revalidate();
         view.getPanel().repaint();
     }
 
-    private DefaultCategoryDataset createDataset(ObservableList<Movie> movies) {
+    // 1. Create EmptyJFree Dataset
+    // 2. Add movies
+    // 3. Add frequency of origin to Chart
+    private DefaultCategoryDataset createDataset(ObservableListModel<Movie> movies) {
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
 
         List<String> origins = new ArrayList<>();

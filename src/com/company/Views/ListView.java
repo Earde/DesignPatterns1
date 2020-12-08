@@ -12,11 +12,17 @@ public class ListView extends AbstractView {
 
     public ListView(String title) {
         super(title);
-        getFrame().getContentPane().setLayout(new BorderLayout());
-        getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getFrame().setSize(600, 200);
-        getFrame().setLocation(50, 50);
-        getFrame().setVisible(true);
+    }
+
+    @Override
+    public void CreateLayout() {
+        // Set frame properties
+        getContentPane().setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 200);
+        setLocation(50, 50);
+        setVisible(true);
+
         // Create UI elements
         deleteButton = new JButton("Delete");
         infoButton = new JButton("Info");
@@ -33,22 +39,26 @@ public class ListView extends AbstractView {
         buttonPanel.add(infoButton);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(deleteButton);
-        getFrame().getContentPane().add(listPanel, BorderLayout.CENTER);
-        getFrame().getContentPane().add(buttonPanel, BorderLayout.PAGE_END);
-        getFrame().revalidate();
-        getFrame().repaint();
+
+        getContentPane().add(listPanel, BorderLayout.CENTER);
+        getContentPane().add(buttonPanel, BorderLayout.PAGE_END);
+        revalidate();
+        repaint();
     }
 
+    // Getters
     public JList<String> getList() {
         return list;
     }
-
     public JButton getDeleteButton() {
         return deleteButton;
     }
     public JButton getInfoButton() {
         return infoButton;
     }
+    public JPanel getListPanel() { return listPanel; }
+
+    // AbstractAction Setters
     public void setDeleteButtonAction(AbstractAction action) {
         String text = deleteButton.getText();
         deleteButton.setAction(action);
@@ -59,5 +69,4 @@ public class ListView extends AbstractView {
         infoButton.setAction(action);
         infoButton.setText(text);
     }
-    public JPanel getListPanel() { return listPanel; }
 }
