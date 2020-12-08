@@ -1,7 +1,6 @@
 package com.company.Controllers.Interfaces;
 
-import com.company.Controllers.MovieController;
-import com.company.Models.Movie;
+import com.company.Models.MovieEntity;
 import com.company.Models.ObservableListModel;
 import com.company.Views.AddView;
 
@@ -50,14 +49,14 @@ public interface IAddMovie {
     }
 
     // Save movie and reset TextFields layout/input
-    default void saveMovie(AddView view, ObservableListModel<Movie> movies) {
+    default void saveMovie(AddView view, ObservableListModel<MovieEntity> movies) {
         if (isSavable(view)) {
             String name = view.getNameTextField().getText();
             String origin = view.getOriginTextField().getText();
             double budget = Double.parseDouble(view.getBudgetTextField().getText());
             int year = Integer.parseInt(view.getYearTextField().getText());
 
-            movies.add(new Movie(name, year, origin, budget));
+            movies.add(new MovieEntity(name, year, origin, budget));
 
             view.getNameTextField().setText("");
             view.getOriginTextField().setText("");

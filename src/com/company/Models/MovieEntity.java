@@ -1,11 +1,11 @@
 package com.company.Models;
 
-public class Movie {
+public class MovieEntity {
     private String name, origin;
     private int year;
     private double budget;
 
-    public Movie(String name, int year, String origin, double budget) {
+    public MovieEntity(String name, int year, String origin, double budget) {
         this.name = name;
         this.year = year;
         this.origin = origin;

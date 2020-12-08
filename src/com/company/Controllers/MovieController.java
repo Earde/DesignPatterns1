@@ -3,7 +3,7 @@ import com.company.Controllers.Interfaces.IAddMovie;
 import com.company.Controllers.Interfaces.IChartMovie;
 import com.company.Controllers.Interfaces.ICustomFunction;
 import com.company.Controllers.Interfaces.IListMovies;
-import com.company.Models.Movie;
+import com.company.Models.MovieEntity;
 import com.company.Models.ObservableListModel;
 import com.company.Views.AddView;
 import com.company.Views.ChartView;
@@ -16,12 +16,12 @@ import java.util.Observer;
 
 //Controller & Observer (Split into multiple interfaces for readable code)
 public class MovieController implements Observer, IAddMovie, IListMovies, IChartMovie {
-    private ObservableListModel<Movie> movies;
+    private ObservableListModel<MovieEntity> movies;
     private AddView addView;
     private ChartView chartView;
     private ListView listView;
 
-    public MovieController(AddView addView, ChartView chartView, ListView listView, ObservableListModel<Movie> movies) {
+    public MovieController(AddView addView, ChartView chartView, ListView listView, ObservableListModel<MovieEntity> movies) {
         // Dependency injections
         this.movies = movies;
         this.addView = addView;
